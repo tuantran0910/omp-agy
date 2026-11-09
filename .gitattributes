@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.ts text diff=typescript
+*.json text diff=json
+*.md text diff=markdown
+dist/** linguist-generated=true
+bun.lock text
