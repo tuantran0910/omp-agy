@@ -29,8 +29,10 @@ jobs:
           # Deliberately no registry-url: setup-node writes an .npmrc with an
           # empty token placeholder, which makes npm skip OIDC and fail ENEEDAUTH.
 
+      # npm 12 requires Node >= 24.15; the 11.x line supports OIDC trusted
+      # publishing from 11.5.1 and works on every supported Node release.
       - name: Ensure npm supports Trusted Publishing (>= 11.5.1)
-        run: npm install -g npm@latest
+        run: npm install -g npm@11
 
       # No token: npm exchanges the GitHub OIDC token for a short-lived
       # publish credential. Provenance is attached automatically.

@@ -31,10 +31,10 @@ npmjs.com → **Packages → omp-agy → Settings → Trusted Publisher → GitH
 | Environment name | *(blank)* |
 | Allowed actions | **`npm publish`** enabled (`npm stage publish` optional) |
 
-Or with npm ≥ 11.15 and 2FA, from the repository:
+Or with npm 11 ≥ 11.15 and 2FA (npm 12 needs Node ≥ 24.15), from the repository:
 
 ```bash
-npm trust github omp-agy --file publish.yml --repo tuantran0910/omp-agy --allow-publish
+npx -y npm@11 trust github omp-agy --file publish.yml --repo tuantran0910/omp-agy --allow-publish
 npm trust list omp-agy
 ```
 
