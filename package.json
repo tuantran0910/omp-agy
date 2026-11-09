@@ -1,6 +1,6 @@
 {
   "name": "omp-agy",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "OMP extension + provider for Google Antigravity CLI (agy): persistent stream-json sessions, quota-aware model routing, honest token accounting.",
   "type": "module",
   "main": "./dist/index.js",

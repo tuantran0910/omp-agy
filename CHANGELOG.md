@@ -6,6 +6,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-09
+
+### Fixed
+
+- Remove the `private` flag so npm accepts the package.
+
+### Changed
+
+- Publish from CI with npm Trusted Publishing (OIDC) instead of a token;
+  the workflow installs npm 11 because npm 12 requires Node >= 24.15.
+- Document the one-time bootstrap publish and trusted-publisher setup.
+
+## [0.1.0] - 2026-11-09
+
 ### Added
 
 - OMP provider `agy` (`agy-cli` API) backed by a persistent
@@ -33,4 +47,6 @@ All notable changes to this project are documented here. The format follows
 - Effort is part of the model slug; the adapter never passes `--effort`.
 - Only the latest user turn is forwarded; agy owns its tool loop.
 
-[Unreleased]: https://github.com/tuantran0910/omp-agy/compare/main...HEAD
+[Unreleased]: https://github.com/tuantran0910/omp-agy/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/tuantran0910/omp-agy/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/tuantran0910/omp-agy/releases/tag/v0.1.0
