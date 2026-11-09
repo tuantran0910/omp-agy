@@ -40,7 +40,6 @@
     "node": ">=20.0.0"
   },
   "license": "MIT",
-  "private": true,
   "author": "Tuan Tran",
   "homepage": "https://github.com/tuantran0910/omp-agy",
   "repository": {
