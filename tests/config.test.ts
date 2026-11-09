@@ -11,6 +11,24 @@ describe("config", () => {
     })
   })
 
+  test("refuses args that would hijack the stream protocol or permissions", () => {
+    for (const arg of [
+      "--dangerously-skip-permissions",
+      "--output-format=json",
+      "--input-format",
+      "--model=other",
+      "--conversation=x",
+      "-p",
+    ]) {
+      expect(() => loadConfig({ AGY_ARGS: `--sandbox ${arg}` })).toThrow(/may not override/)
+    }
+    expect(loadConfig({ AGY_ARGS: "--sandbox --log-file /tmp/agy.log" }).extraArgs).toEqual([
+      "--sandbox",
+      "--log-file",
+      "/tmp/agy.log",
+    ])
+  })
+
   test("reads overrides and rejects unusable values", () => {
     const config = loadConfig({
       AGY_BINARY: "/opt/agy",

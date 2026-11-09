@@ -41,5 +41,12 @@ export default function agyExtension(pi: ExtensionAPI): void {
 
   const shutdown = (): void => manager.closeAll()
   process.once("exit", shutdown)
-  process.once("SIGTERM", shutdown)
+  // Re-raise after cleanup: installing a SIGTERM listener suppresses Node's
+  // default termination, so the process must keep dying the way OMP expects.
+  const onSigterm = (): void => {
+    shutdown()
+    process.removeListener("SIGTERM", onSigterm)
+    process.kill(process.pid, "SIGTERM")
+  }
+  process.once("SIGTERM", onSigterm)
 }

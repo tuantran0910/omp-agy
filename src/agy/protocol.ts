@@ -43,8 +43,16 @@ export interface AgyEvent {
  * until their terminating newline arrives. Dropping them is what makes the
  * naive `chunk.split("\n")` parser lose events.
  */
+const MAX_LINE_BYTES = 8 * 1024 * 1024
+
 export class NdjsonLineBuffer {
   private buffer = ""
+  private droppedLines = 0
+
+  /** Oversized/framing-broken lines discarded so a malformed child cannot grow memory without bound. */
+  get dropped(): number {
+    return this.droppedLines
+  }
 
   push(chunk: string): string[] {
     this.buffer += chunk
@@ -55,6 +63,10 @@ export class NdjsonLineBuffer {
       if (line !== "") lines.push(line)
       this.buffer = this.buffer.slice(index + 1)
       index = this.buffer.indexOf("\n")
+    }
+    if (this.buffer.length > MAX_LINE_BYTES) {
+      this.buffer = ""
+      this.droppedLines += 1
     }
     return lines
   }

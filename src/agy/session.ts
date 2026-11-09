@@ -108,7 +108,11 @@ export class AgySession {
   private systemSent = false
   conversationId?: string
 
-  constructor(private readonly config: AgySessionConfig) {}
+  constructor(private readonly config: AgySessionConfig) {
+    if (!/^[A-Za-z0-9][A-Za-z0-9._-]*$/.test(config.modelId)) {
+      throw new AgyError(`invalid agy model id: ${config.modelId}`, "INVALID_MODEL")
+    }
+  }
 
   private ensureChild(): ChildLike {
     if (this.child) return this.child

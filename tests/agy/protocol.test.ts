@@ -11,6 +11,13 @@ describe("NdjsonLineBuffer", () => {
     ])
   })
 
+  test("drops an oversized line instead of buffering it forever", () => {
+    const buffer = new NdjsonLineBuffer()
+    buffer.push("x".repeat(8 * 1024 * 1024 + 1))
+    expect(buffer.dropped).toBe(1)
+    expect(buffer.push('{"event":"result"}\n')).toEqual(['{"event":"result"}'])
+  })
+
   test("flush emits a trailing partial line", () => {
     const buffer = new NdjsonLineBuffer()
     buffer.push('{"event":"result"}')

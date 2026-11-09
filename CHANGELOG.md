@@ -18,6 +18,14 @@ All notable changes to this project are documented here. The format follows
   configuration, provider metadata, and session lifecycle.
 - Biome configuration, CI workflow, architecture notes and decision records.
 
+### Security
+
+- `bun audit` is part of the check; the dev-only zod advisory
+  (GHSA-mrhx-c7xc-m3w5) is cleared with a `zod@4.6.7` override.
+- `AGY_ARGS` rejects protocol and permission overrides; model ids that look like
+  CLI flags are refused; the NDJSON line buffer is capped at 8 MiB; the SIGTERM
+  hook re-raises after cleanup so the host still terminates.
+
 ### Design
 
 - Antigravity billing is quota-based, so model costs report zero and quota is

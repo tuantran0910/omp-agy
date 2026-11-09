@@ -28,14 +28,37 @@ function modeValue(env: NodeJS.ProcessEnv): AgyMode {
   return mode === "accept-edits" || mode === "auto" || mode === "plan" ? mode : "plan"
 }
 
+const FORBIDDEN_ARG_PREFIXES = [
+  "--dangerously-skip-permissions",
+  "--input-format",
+  "--output-format",
+  "--print",
+  "--prompt",
+  "--model",
+  "--conversation",
+  "--add-dir",
+  "--settings",
+] as const
+
+function parseExtraArgs(raw: string | undefined): string[] {
+  if (raw === undefined) return []
+  const args = raw.split(" ").filter((arg) => arg !== "")
+  for (const arg of args) {
+    if (
+      arg === "-p" ||
+      FORBIDDEN_ARG_PREFIXES.some((prefix) => arg === prefix || arg.startsWith(`${prefix}=`))
+    ) {
+      throw new Error(`AGY_ARGS may not override protocol or permission flags: ${arg}`)
+    }
+  }
+  return args
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AgyConfig {
   return {
     binary: stringValue(env, "AGY_BINARY") ?? "agy",
     mode: modeValue(env),
     timeoutMs: numberValue(env, "AGY_TIMEOUT_MS") ?? DEFAULT_TIMEOUT_MS,
-    extraArgs:
-      stringValue(env, "AGY_ARGS")
-        ?.split(" ")
-        .filter((arg) => arg !== "") ?? [],
+    extraArgs: parseExtraArgs(stringValue(env, "AGY_ARGS")),
   }
 }

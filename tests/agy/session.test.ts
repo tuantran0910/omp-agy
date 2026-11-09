@@ -76,6 +76,19 @@ function setup() {
 }
 
 describe("AgySession", () => {
+  test("rejects a model id that looks like a CLI flag", () => {
+    expect(
+      () =>
+        new AgySession({
+          binary: "agy",
+          modelId: "--dangerously-skip-permissions",
+          cwd: "/tmp",
+          mode: "plan",
+          timeoutMs: 1_000,
+        }),
+    ).toThrow(/invalid agy model id/)
+  })
+
   test("spawns one stream-json session with the verified flags", async () => {
     const { calls, child, session } = setup()
     void session.send("hello")
