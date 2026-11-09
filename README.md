@@ -112,6 +112,9 @@ bun test          # unit tests only
 bun run format    # biome
 ```
 
+Releases are published from CI with npm Trusted Publishing; see
+[`docs/publishing.md`](docs/publishing.md).
+
 ```
 src/
   index.ts              entry: config → provider → commands → cleanup
